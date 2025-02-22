@@ -60,12 +60,20 @@ function App() {
 
   return (
     <>
-      <div id="scores">
-        <div>Score: {score}</div>
-        <div>Best Score: {bestScore}</div>
-      </div>
+      <div id="game-screen">
+        <div id="game-header">
+          <div id="scores">
+            <div>Score: {score}</div>
+            <div>Best Score: {bestScore}</div>
+          </div>
+          <div id="instructions">
+            {`Get points by clicking on an image but don't click on any more than
+                once!`}
+          </div>
+        </div>
 
-      <div id="cards">{renderCards()}</div>
+        <div id="cards">{renderCards()}</div>
+      </div>
     </>
   );
 }

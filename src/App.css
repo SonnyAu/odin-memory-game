@@ -4,6 +4,7 @@
   margin: 0 auto;
   padding: 2rem;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -13,10 +14,35 @@
   background-position: center center; /* Centers it horizontally & vertically */
 }
 
+#game-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  background: rgba(0, 0, 0, 0.5); /* ✅ Dark background with 50% opacity */
+  padding: 50px;
+}
+
+#game-header {
+  width: 85%;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#instructions {
+  width: 200px;
+}
 #cards {
   width: 1000px;
   display: flex;
-  gap: 50px;
+  gap: 25px;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
+}
+
+#scores {
+  color: white;
 }
