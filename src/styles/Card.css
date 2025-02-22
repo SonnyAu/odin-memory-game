@@ -1,0 +1,54 @@
+.card {
+  position: relative;
+  width: 120px; /* Match card dimensions */
+  height: 160px; /* Adjusted height for image + text */
+  background-color: gold;
+  clip-path: polygon(10% 0, 90% 0, 100% 10%, 100% 100%, 0 100%, 0 10%);
+  overflow: hidden;
+  border: 5px solid gold;
+  border-top: none;
+
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Creates the gold border overlay */
+.card::before {
+  content: "";
+  position: absolute;
+  top: -2px; /* Aligns with actual border */
+  left: -2px;
+  width: calc(100% + 4px); /* Expands slightly beyond card */
+  height: calc(100% + 4px);
+  background-color: gold;
+  clip-path: polygon(5% 0, 95% 0, 100% 5%, 100% 100%, 0 100%, 0 5%);
+  z-index: -1; /* Keeps it behind the content */
+}
+
+/* Ensures the image fully covers the background */
+.card img {
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Fixes text alignment and background */
+.servant {
+  background-color: gold;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 5px 0;
+  margin-top: auto; /* Pushes text to the bottom */
+  width: 100%;
+  height: 30px; /* Prevents the section from growing */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1; /* Ensures text appears above the image */
+}

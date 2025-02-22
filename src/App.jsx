@@ -1,14 +1,36 @@
 import "./App.css";
-import { useEffect } from "react";
+import Card from "./components/Card.jsx";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [servantData, setServantData] = useState([]);
+  let clicked = [];
   useEffect(() => {
     fetch("https://api.atlasacademy.io/export/NA/basic_servant.json")
       .then((response) => response.json())
-      .then((data) => console.log(data.slice(0, 10)));
-  });
+      .then((data) => {
+        setServantData(data.slice(0, 18));
+      });
+  }, []);
+  function clickServant() {}
+  function renderCards() {
+    return servantData.map((servant) => {
+      return (
+        <Card
+          key={servant.id}
+          img={servant.face}
+          name={servant.name}
+          onClick={clickServant}
+        />
+      );
+    });
+  }
 
-  return <></>;
+  return (
+    <>
+      <div id="cards">{renderCards()}</div>
+    </>
+  );
 }
 
 export default App;
