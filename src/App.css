@@ -35,7 +35,7 @@
   width: 200px;
 }
 #cards {
-  width: 1000px;
+  width: 80vh;
   display: flex;
   gap: 25px;
   flex-wrap: wrap;
