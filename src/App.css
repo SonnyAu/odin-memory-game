@@ -1,29 +1,34 @@
 #root {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh; /* ✅ Expands if content is taller than the screen */
   margin: 0 auto;
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: center; /* ✅ Prevents unnecessary centering */
   align-items: center;
   text-align: center;
   background-image: url("../src/assets/fgo.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center center; /* Centers it horizontally & vertically */
+  background-position: center;
+  background-attachment: fixed; /* ✅ Keeps background fixed */
 }
 
 #game-screen {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 30px;
-  background: rgba(0, 0, 0, 0.5); /* ✅ Dark background with 50% opacity */
-  padding: 50px;
+  gap: 20px;
+  background: rgba(0, 0, 0, 0.5); /* ✅ Semi-transparent background */
+  padding: 30px;
+  width: fit-content; /* ✅ Ensures it wraps around content */
+  max-width: 90vw; /* ✅ Prevents it from stretching too much */
+  height: auto; /* ✅ Expands as needed */
+  min-height: 60vh; /* ✅ Ensures it has a base height */
+  border-radius: 10px;
+  box-sizing: border-box;
 }
-
 #game-header {
   width: 85%;
   color: white;
@@ -35,12 +40,15 @@
   width: 200px;
 }
 #cards {
-  width: 80vh;
   display: flex;
-  gap: 25px;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  gap: 15px;
+  width: 100%; /* ✅ Matches the width of game-screen */
+  max-width: 800px; /* ✅ Prevents it from getting too large */
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 #scores {
