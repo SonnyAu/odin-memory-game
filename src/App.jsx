@@ -12,6 +12,8 @@ function App() {
   const [showHighscore, setShowHighscore] = useState(false);
   const [username, setUsername] = useState("");
   const [currentScore, setCurrentScore] = useState(0);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [leaderboardData, setLeaderboardData] = useState([]);
   useEffect(() => {
     fetch("https://api.atlasacademy.io/export/NA/basic_servant.json")
       .then((response) => response.json())
@@ -93,6 +95,24 @@ function App() {
   function handleHighscore() {
     setShowHighscore(true);
   }
+  async function fetchLeaderboard() {
+    try {
+      const { data, error } = await supabase
+        .from("highscores")
+        .select("*")
+        .order("highscore", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching leaderboard:", error);
+        alert("Error fetching leaderboard: " + error.message);
+      } else {
+        setLeaderboardData(data || []);
+      }
+    } catch (err) {
+      console.error("Error fetching leaderboard:", err);
+      alert("Error fetching leaderboard: " + err.message);
+    }
+  }
 
   return (
     <>
@@ -106,10 +126,35 @@ function App() {
             {`Get points by clicking on an image but don't click on any more than
                 once!`}
           </div>
+          <div id="leaderboard">
+            <button
+              className="open-leaderboard"
+              onClick={() => {
+                setShowLeaderboard(true);
+                fetchLeaderboard();
+              }}
+            >
+              Leaderboard
+            </button>
+          </div>
         </div>
 
         <div id="cards">{renderCards()}</div>
       </div>
+
+      {showLeaderboard && (
+        <div id="leaderboard-modal">
+          <div className="modal-content">
+            <h2>Leaderboard</h2>
+            {leaderboardData.map((score) => (
+              <div key={score.id}>
+                {score.username}: {score.highscore}
+              </div>
+            ))}
+            <button onClick={() => setShowLeaderboard(false)}>Close</button>
+          </div>
+        </div>
+      )}
 
       {showHighscore && (
         <div className="highscore">
