@@ -1,5 +1,7 @@
 import "./App.css";
 import Card from "./components/Card.jsx";
+import { supabase } from "./lib/supabaseClient.js";
+
 import { useEffect, useState } from "react";
 
 function App() {
@@ -7,6 +9,9 @@ function App() {
   const [clicked, setClicked] = useState([]);
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
+  const [showHighscore, setShowHighscore] = useState(false);
+  const [username, setUsername] = useState("");
+  const [currentScore, setCurrentScore] = useState(0);
   useEffect(() => {
     fetch("https://api.atlasacademy.io/export/NA/basic_servant.json")
       .then((response) => response.json())
@@ -35,6 +40,8 @@ function App() {
       setScore((prev) => prev + 1);
     } else {
       setBestScore((prev) => Math.max(prev, score));
+      setCurrentScore(score);
+      handleHighscore();
       setScore(0);
       fetch("https://api.atlasacademy.io/export/NA/basic_servant.json")
         .then((response) => response.json())
@@ -57,6 +64,35 @@ function App() {
       );
     });
   }
+  async function saveScore(score, username) {
+    if (!score || !username.trim()) {
+      alert("Please enter a username and make sure you have a score!");
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from("highscores")
+        .insert([{ username: username.trim(), highscore: score }]);
+
+      if (error) {
+        console.error("Supabase error:", error);
+        alert("Error saving score: " + error.message);
+      } else {
+        console.log("Score saved successfully:", data);
+        alert("Score saved successfully!");
+        setShowHighscore(false);
+        setUsername("");
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      alert("Unexpected error saving score");
+    }
+  }
+
+  function handleHighscore() {
+    setShowHighscore(true);
+  }
 
   return (
     <>
@@ -74,6 +110,21 @@ function App() {
 
         <div id="cards">{renderCards()}</div>
       </div>
+
+      {showHighscore && (
+        <div className="highscore">
+          <div>You scored {currentScore} points!</div>
+          <input
+            type="text"
+            placeholder="Enter a username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <button onClick={() => setShowHighscore(false)}>Close</button>
+          <button onClick={() => saveScore(currentScore, username)}>
+            Submit
+          </button>
+        </div>
+      )}
     </>
   );
 }
